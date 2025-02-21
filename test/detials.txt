@@ -1,0 +1,58 @@
+
+flowchart TD
+    subgraph Input["Input Processing"]
+        A[Raw Audio] --> F1[Audio Feature Extraction]
+        B[Environment Parameters] --> F4[Environment Embedding]
+    end
+
+    subgraph Router["Router Network"]
+        R[Router Network - RL Policy] --> RG[Query Generation]
+        RG --> PK[Product Key Retrieval]
+        PK -->|Probabilistic Selection| E1[Expert 1]
+        PK -->|Probabilistic Selection| E2[Expert 2]
+        PK -->|Probabilistic Selection| E3[Expert P]
+    end
+
+    subgraph ExpertProcessing["Expert Panel Processing"]
+        E1 --> O1[Expert Output - Reasoning]
+        E2 --> O2[Expert Output - Reasoning]
+        E3 --> O3[Expert Output - Reasoning]
+        
+        O1 --> AG[Aggregation Round 1]
+        O2 --> AG
+        O3 --> AG
+        
+        AG -->|Aggregated Output| CON[Contextualized Input]
+        
+        subgraph Round2["Round 2 (optional)"]
+            CON --> E1R[Expert 1 Refined - Reasoning]
+            CON --> E2R[Expert 2 Refined - Reasoning]
+            CON --> E3R[Expert P Refined - Reasoning]
+        end
+        
+        E1R --> OF1[Expert Output Final]
+        E2R --> OF2[Expert Output Final]
+        E3R --> OF3[Expert Output Final]
+    end
+
+    subgraph Fusion["Fusion Layer (RL - Value Network)"]
+        OF1 --> FU[Fusion/Aggregation - RL Policy/Value]
+        OF2 --> FU
+        OF3 --> FU
+        FU --> RD[Final Routing Decision]
+    end
+
+    F1 --> R
+    F4 --> R
+
+    RD --> Output[Route Call]
+    Output -- Reward --> R
+    Output -- Reward --> FU
+
+    classDef rl fill:#ff9999,stroke:#ff0000,color:#000000
+    classDef policy fill:#99ff99,stroke:#00ff00,color:#000000
+    classDef value fill:#9999ff,stroke:#0000ff,color:#000000
+    
+    class R,PK rl
+    class E1,E2,E3,E1R,E2R,E3R policy
+    class FU value
