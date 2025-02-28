@@ -1,4 +1,64 @@
+flowchart TD
+    A[Customer Call] --> B[Call Intake & Analysis]
+    B --> C[Multimodal Feature Extraction]
+    C --> D[Expert Panel Selection]
+    D --> E[Issue Analysis & Routing Decision]
+    E --> F[Agent Assignment]
+    F --> G[Call Handling & Resolution]
+    G --> H[Outcome Analysis]
+    H -.->|Feedback Loop| C
+    
+    subgraph "Call Intake & Analysis"
+        B1[Voice Recording] --> B2[Speech-to-Text]
+        B1 --> B3[Audio Feature Analysis]
+        B2 --> B4[Text Analysis]
+        B3 --> B5[Sentiment/Urgency Detection]
+    end
+    
+    subgraph "Multimodal Feature Extraction"
+        C1[Text Features] 
+        C2[Audio Features]
+        C3[Customer History]
+        C4[Environmental Parameters]
+    end
+    
+    subgraph "Expert Panel Selection"
+        D1[Router Network]
+        D2[Expert Panel Formation]
+        D3[Specialized Expert Selection]
+    end
+    
+    subgraph "Issue Analysis & Routing Decision"
+        E1[Expert 1 Analysis]
+        E2[Expert 2 Analysis]
+        E3[Expert 3 Analysis]
+        E4[Aggregation of Expert Opinions]
+        E5[Final Routing Decision]
+    end
+    
+    subgraph "Agent Assignment"
+        F1[Agent Skill Matching]
+        F2[Workload Balancing]
+        F3[Priority Queue Assignment]
+    end
+    
+    subgraph "Call Handling & Resolution"
+        G1[Agent Intervention]
+        G2[Issue Resolution]
+        G3[Upselling/Cross-Selling Opportunities]
+    end
+    
+    subgraph "Outcome Analysis"
+        H1[Resolution Success]
+        H2[Customer Satisfaction]
+        H3[Call Duration]
+        H4[Agent Performance]
+    end
 
+
+
+
+----
 flowchart TD
     subgraph Input["Input Processing"]
         A[Raw Audio] --> F1[Audio Feature Extraction]
