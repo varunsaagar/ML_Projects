@@ -1,4 +1,53 @@
 flowchart TD
+    A[Customer Call] --> B[Multimodal Input Processing]
+    B --> C[Expert Panel Selection]
+    C --> D[Collaborative Issue Analysis]
+    D --> E[Intelligent Routing Decision]
+    E --> F[Agent Assignment]
+    F --> G[Outcome & Feedback]
+    G -.->|Continuous Learning Loop| C
+    
+    subgraph "Multimodal Input Processing"
+        B1[Audio Analysis] 
+        B2[Text Transcription]
+        B3[Customer Context]
+        B4[Feature Extraction]
+    end
+    
+    subgraph "Expert Panel Selection"
+        C1[Router Network]
+        C2[Product Key Retrieval]
+        C3[Panel Formation]
+    end
+    
+    subgraph "Collaborative Issue Analysis"
+        D1[Expert 1 Assessment]
+        D2[Expert 2 Assessment]
+        D3[Expert 3 Assessment]
+        D4[Information Sharing]
+        D5[Refined Analysis]
+    end
+    
+    subgraph "Intelligent Routing Decision"
+        E1[Fusion Layer]
+        E2[Decision Rules]
+        E3[Final Routing]
+    end
+    
+    subgraph "Agent Assignment"
+        F1[Skill Matching]
+        F2[Issue Context Transfer]
+        F3[Priority Handling]
+    end
+    
+    subgraph "Outcome & Feedback"
+        G1[Resolution Tracking]
+        G2[Customer Satisfaction]
+        G3[System Optimization]
+    end
+
+_________________________
+flowchart TD
     A[Customer Call] --> B[Call Intake & Analysis]
     B --> C[Multimodal Feature Extraction]
     C --> D[Expert Panel Selection]
