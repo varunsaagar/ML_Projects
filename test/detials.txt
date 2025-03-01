@@ -1,3 +1,127 @@
+
+--------------------------------
+
+# Mixture of Experts Pre-Training Strategy for Multi-Level Call Routing
+
+## Pseudo-Logic for Training Pipeline
+
+```mermaid
+flowchart TD
+    A[Data Collection & Preparation] --> B[Component Pre-Training]
+    B --> C[Expert Specialization]
+    C --> D[Router Policy Training]
+    D --> E[Fusion Layer Training]
+    E --> F[End-to-End Fine-Tuning]
+    F --> G[Deployment & Continuous Learning]
+```
+
+### 1. Data Collection & Preparation
+- **Objective**: Create multi-modal training corpus with accurate routing labels
+- **Logic**:
+  ```
+  FOR each historical call:
+      Extract audio features (tone, emotion, urgency markers)
+      Process transcript with NLP (intents, entities, sentiment)
+      Collect metadata (customer profile, history, context)
+      Label with: correct_routing, transfers_needed, resolution_time, CSAT
+      Create multi-level annotations (agent, session, customer dimensions)
+  ```
+
+### 2. Component Pre-Training
+- **Objective**: Build foundation models for each modality
+- **Logic**:
+  ```
+  Train audio encoder on call center audio → emotion/urgency detection
+  Fine-tune language model on customer service transcripts
+  Train customer profile encoder on historical interaction data
+  ```
+
+### 3. Expert Specialization
+- **Objective**: Create 1M+ specialized micro-experts with narrow focus
+- **Logic**:
+  ```
+  FOR each expert category (billing, technical, account, etc.):
+      Identify sub-categories and specific issue types
+      FOR each specific issue type:
+          Train specialized micro-expert using supervised learning
+          Optimize for precision on narrow domain
+          Assign product key vector representing specialization
+  ```
+
+### 4. Router Policy Training (RL)
+- **Objective**: Train router to select optimal expert panel for each call
+- **Logic**:
+  ```
+  Initialize router network with random weights
+  WHILE not converged:
+      Sample batch of calls
+      FOR each call:
+          Generate query vector from multimodal input
+          Select expert panel using current policy
+          Process call through experts and fusion layer
+          Observe final routing and outcome
+          Calculate reward:
+              r = α₁(correct_routing) + α₂(first_call_resolution) 
+                + α₃(issue_identification_accuracy) - α₄(transfers)
+                - α₅(call_duration) + α₆(agent_utilization) + α₇(CSAT)
+          Update router policy using policy gradient:
+              θ ← θ + η∇_θ log π(a|s;θ) * r
+  ```
+
+### 5. Fusion Layer Training
+- **Objective**: Optimize aggregation of expert outputs for final routing
+- **Logic**:
+  ```
+  IF using rule-based fusion:
+      Define rules based on expert panel outputs and business logic
+  ELSE IF using learned fusion (RL approach):
+      Initialize fusion network with random weights
+      WHILE not converged:
+          Sample batch of expert panel outputs
+          FOR each panel output:
+              Generate routing decision using current fusion policy
+              Observe outcome and calculate reward (same as router)
+              Update fusion parameters using Q-learning:
+                  Q(s,a) ← Q(s,a) + η[r + γ max_a' Q(s',a') - Q(s,a)]
+  ```
+
+### 6. End-to-End Fine-Tuning
+- **Objective**: Optimize complete system with multi-level objectives
+- **Logic**:
+  ```
+  Freeze expert networks (to preserve specialization)
+  Initialize with pre-trained router and fusion components
+  WHILE not converged:
+      Sample batch of calls with multi-level annotations
+      Process through complete pipeline
+      Calculate combined loss:
+          L = β₁L_agent + β₂L_session + β₃L_customer + β₄L_RL
+      Update router and fusion parameters with gradient descent
+  ```
+
+### 7. Deployment & Continuous Learning
+- **Objective**: Maintain system performance in production
+- **Logic**:
+  ```
+  Deploy trained system to production
+  WHILE in production:
+      Collect real-world outcomes and feedback
+      Periodically update router policy and fusion layer
+      Add new experts for emerging issues/patterns
+      Adjust reward weights based on business priorities
+  ```
+
+## Key Reward Signals
+- **Correct Routing**: +1.0 when call routed to appropriate destination
+- **First-Call Resolution**: +0.5 when issue resolved without transfers
+- **Issue Identification**: +0.3 when expert flags match actual issue
+- **Transfer Penalty**: -0.1 per transfer needed
+- **Duration Penalty**: -0.01 × call_duration_minutes
+- **Agent Utilization**: +0.2 for balanced workload distribution
+- **Customer Satisfaction**: +1.0 for high CSAT, -1.0 for low CSAT
+
+
+--------------------------------------------------
 # Mixture of Experts (MoE) Architecture for Multi-Level Call Routing
 
 ## Technical Model Architecture Breakdown
